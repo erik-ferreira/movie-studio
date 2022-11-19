@@ -11,4 +11,9 @@ export const theme = {
     gray500: "#7C7C8A",
     gray700: "#202024",
   },
+  fonts: {
+    normal: "Inter_400Regular",
+    medium: "Inter_500Medium",
+    semibold: "Inter_600SemiBold",
+  },
 };
