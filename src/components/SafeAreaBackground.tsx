@@ -12,6 +12,7 @@ export function SafeAreaBackground({ children }: SafeAreaBackgroundProps) {
 
 const SafeAreaContainer = styled.SafeAreaView`
   flex: 1;
-  padding-top: ${StatusBar.currentHeight}px;
+  padding: ${StatusBar.currentHeight}px 32px 0;
   background-color: ${({ theme }) => theme.colors.primary};
+  align-items: center;
 `;
