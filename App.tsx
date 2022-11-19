@@ -1,9 +1,18 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components";
 
 import { Login } from "./src/pages/Login";
+import { theme } from "./src/theme/default";
 
 export default function App() {
-  return <Login />;
+  return (
+    <ThemeProvider theme={theme}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <Login />
+    </ThemeProvider>
+  );
 }
