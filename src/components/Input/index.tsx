@@ -1,15 +1,26 @@
 import { ReactNode } from "react";
-import { View, TextInputProps } from "react-native";
+import { View, TextInputProps, Text } from "react-native";
 import { useTheme } from "styled-components/native";
+import { Control, Controller } from "react-hook-form";
 
-import { ContainerInput, Label, InputRN, styleIcon } from "./styles";
+import { ContainerInput, Label, InputRN, styleIcon, TextError } from "./styles";
 
 export interface InputProps extends TextInputProps {
   label: string;
   IconLeft?: ReactNode;
+  control?: Control<any, any>;
+  name: string;
+  error?: string;
 }
 
-export function Input({ label, IconLeft, ...rest }: InputProps) {
+export function Input({
+  label,
+  IconLeft,
+  control,
+  name,
+  error,
+  ...rest
+}: InputProps) {
   const { colors } = useTheme();
 
   return (
@@ -19,12 +30,23 @@ export function Input({ label, IconLeft, ...rest }: InputProps) {
       <View style={{ position: "relative" }}>
         {!!IconLeft && <View style={styleIcon}>{IconLeft}</View>}
 
-        <InputRN
-          hasIconLeft={!!IconLeft}
-          placeholderTextColor={colors.gray500}
-          {...rest}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputRN
+              hasIconLeft={!!IconLeft}
+              placeholderTextColor={colors.gray500}
+              value={value}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              {...rest}
+            />
+          )}
+          name={name}
         />
       </View>
+
+      {!!error && <TextError>{error}</TextError>}
     </ContainerInput>
   );
 }

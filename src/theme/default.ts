@@ -10,6 +10,8 @@ export const theme = {
     gray300: "#A8A8B3",
     gray500: "#7C7C8A",
     gray700: "#202024",
+
+    danger: "#DB4437",
   },
   fonts: {
     normal: "Inter_400Regular",

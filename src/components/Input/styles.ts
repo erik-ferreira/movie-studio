@@ -34,3 +34,10 @@ export const styleIcon: StyleProp<ViewStyle> = {
   left: 16,
   zIndex: 1,
 };
+
+export const TextError = styled.Text`
+  font-size: 12px;
+  margin-top: 12px;
+  color: ${(props) => props.theme.colors.danger};
+  font-family: ${(props) => props.theme.fonts.semibold};
+`;
