@@ -16,6 +16,7 @@ export const Label = styled.Text`
 
 interface InputRNProps {
   hasIconLeft?: boolean;
+  hasIconRight?: boolean;
 }
 
 export const InputRN = styled.TextInput<InputRNProps>`
@@ -25,13 +26,21 @@ export const InputRN = styled.TextInput<InputRNProps>`
   color: ${(props) => props.theme.colors.gray500};
   font-family: ${(props) => props.theme.fonts.normal};
   background-color: ${(props) => props.theme.colors.gray700};
-  padding: 0 16px 0 ${(props) => (props.hasIconLeft ? "56px" : "16px")};
+  padding-left: ${(props) => (props.hasIconLeft ? "56px" : "16px")};
+  padding-right: ${(props) => (props.hasIconRight ? "56px" : "16px")};
 `;
 
-export const styleIcon: StyleProp<ViewStyle> = {
+export const styleIconLeft: StyleProp<ViewStyle> = {
   position: "absolute",
   top: 12,
   left: 16,
+  zIndex: 1,
+};
+
+export const styleIconRight: StyleProp<ViewStyle> = {
+  position: "absolute",
+  top: 12,
+  right: 16,
   zIndex: 1,
 };
 

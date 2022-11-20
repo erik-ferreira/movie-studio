@@ -70,6 +70,7 @@ export function Login() {
         placeholder="jondoe@example.com"
         IconLeft={<EnvelopeSimple size={24} color={colors.gray500} />}
         error={errors?.email?.message}
+        keyboardType="email-address"
       />
       <Input
         name="password"
@@ -78,6 +79,7 @@ export function Login() {
         placeholder="***********"
         IconLeft={<Lock size={24} color={colors.gray500} />}
         error={errors?.password?.message}
+        isPassword
       />
       <Button
         title="Entrar"
