@@ -3,6 +3,7 @@ import { Image, Alert } from "react-native";
 import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { EnvelopeSimple, Lock } from "phosphor-react-native";
 
@@ -32,6 +33,7 @@ type SignInFormData = zod.infer<typeof signInSchema>;
 
 export function Login() {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   const {
     control,
@@ -96,7 +98,8 @@ export function Login() {
       <Button
         title="Entrar"
         style={{ marginTop: 12 }}
-        onPress={handleSubmit(handleSignIn)}
+        // onPress={handleSubmit(handleSignIn)}
+        onPress={() => navigation.navigate("Home")}
       />
 
       <TextNavigate

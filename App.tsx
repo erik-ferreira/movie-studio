@@ -7,8 +7,8 @@ import {
   Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
 
-import { Login } from "./src/pages/Login";
 import { Loading } from "./src/components/Loading";
+import { Routes } from "./src/routes/index.routes";
 
 import { theme } from "./src/theme/default";
 
@@ -40,7 +40,7 @@ export default function App() {
           <Loading />
         </View>
       ) : (
-        <Login />
+        <Routes />
       )}
     </ThemeProvider>
   );
