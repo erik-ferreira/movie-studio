@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
 interface SafeAreaBackgroundProps {
@@ -7,12 +7,28 @@ interface SafeAreaBackgroundProps {
 }
 
 export function SafeAreaBackground({ children }: SafeAreaBackgroundProps) {
-  return <SafeAreaContainer>{children}</SafeAreaContainer>;
+  return (
+    <SafeAreaContainer>
+      <ScrollView
+        style={{
+          width: "100%",
+        }}
+        contentContainerStyle={{
+          alignItems: "center",
+          paddingHorizontal: 32,
+          paddingVertical: 32,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {children}
+      </ScrollView>
+    </SafeAreaContainer>
+  );
 }
 
 const SafeAreaContainer = styled.SafeAreaView`
   flex: 1;
-  padding: ${StatusBar.currentHeight}px 32px 0;
+  padding-top: ${StatusBar.currentHeight}px;
   background-color: ${({ theme }) => theme.colors.primary};
   align-items: center;
 `;
