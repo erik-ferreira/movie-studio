@@ -1,4 +1,4 @@
-import { StatusBar, View } from "react-native";
+import { StatusBar, View, LogBox } from "react-native";
 import { ThemeProvider } from "styled-components";
 import {
   useFonts,
@@ -11,6 +11,8 @@ import { Login } from "./src/pages/Login";
 import { Loading } from "./src/components/Loading";
 
 import { theme } from "./src/theme/default";
+
+LogBox.ignoreLogs(["AsyncStorage has been extracted"]);
 
 export default function App() {
   const [fontsLoaded] = useFonts({

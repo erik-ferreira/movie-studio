@@ -1,5 +1,5 @@
 import * as zod from "zod";
-import { Image } from "react-native";
+import { Image, Alert } from "react-native";
 import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,21 +43,33 @@ export function Login() {
   });
 
   async function handleSignIn(data: SignInFormData) {
-    console.log(data);
-    // try {
-    //   const response = await signInWithEmailAndPassword(
-    //     auth,
-    //     "jasda@gmail.com",
-    //     "123456"
-    //   );
-    //   console.log(response);
-    // } catch (error) {
-    //   const message = error?.message.substring(17, 36);
-    //   console.log(message);
-    // }
-  }
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        data?.email,
+        data?.password
+      );
 
-  // console.log("errors", errors);
+      console.log("deu certo", response);
+    } catch (error) {
+      const message = cutMessageErrorFirebase(error?.message);
+      let messageAlert = "";
+
+      if (message === "auth/wrong-password") {
+        messageAlert = "Senha incorreta";
+      } else if (message === "auth/user-not-found") {
+        messageAlert = "Usuário não encontrado";
+      } else if (message === "auth/too-many-requests") {
+        messageAlert =
+          "Tentativas de login excedidas. Aguarde um tempo e tente novamente";
+      } else {
+        messageAlert =
+          "Ocorreu um problema ao realizar o login, tente novamente!";
+      }
+
+      Alert.alert("", messageAlert);
+    }
+  }
 
   return (
     <SafeAreaBackground>

@@ -1,5 +1,6 @@
 export function cutMessageErrorFirebase(error: string) {
-  const message = error?.substring(17, 36);
+  const [_, cut] = error.split("(");
+  const [message] = cut.split(")");
 
   return message;
 }
