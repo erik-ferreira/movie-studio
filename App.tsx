@@ -8,6 +8,7 @@ import {
 } from "@expo-google-fonts/inter";
 
 import { Login } from "./src/pages/Login";
+import { Cadastro } from "./src/pages/Cadastro";
 import { Loading } from "./src/components/Loading";
 
 import { theme } from "./src/theme/default";
@@ -38,7 +39,7 @@ export default function App() {
           <Loading />
         </View>
       ) : (
-        <Login />
+        <Cadastro />
       )}
     </ThemeProvider>
   );
