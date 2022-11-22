@@ -18,7 +18,7 @@ export const ContentHeader = styled.View`
 export const TitleHeader = styled.Text`
   color: ${(props) => props.theme.colors.white};
   font-family: ${(props) => props.theme.fonts.medium};
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
 `;
 
