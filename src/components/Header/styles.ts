@@ -1,16 +1,17 @@
 import styled from "styled-components/native";
+import { StatusBar } from "react-native";
 
 export const ContainerHeader = styled.View`
   width: 100%;
-  height: 94px;
+  padding: ${StatusBar.currentHeight}px 20px 0;
   background-color: ${(props) => props.theme.colors.gray700};
-  padding: 0 20px 20px;
 `;
 
 export const ContentHeader = styled.View`
   width: 100%;
+  height: 72px;
   align-items: center;
-  /* flex-direction: row; */
+  flex-direction: row;
   justify-content: space-between;
 `;
 

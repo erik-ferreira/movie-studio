@@ -1,4 +1,5 @@
-import { CaretLeft, Export } from "phosphor-react-native";
+import { useNavigation } from "@react-navigation/native";
+import { SignOut, HeartStraight } from "phosphor-react-native";
 
 import { ButtonIcon } from "../ButtonIcon";
 
@@ -9,30 +10,30 @@ import {
   EmptyBoxSpace,
 } from "./styles";
 
-interface Props {
+interface HeaderProps {
   title: string;
-  showBackButton?: boolean;
-  showShareButton?: boolean;
-  onShare?: () => void;
+  hideButtonLeft?: boolean;
+  hideButtonRight?: boolean;
 }
 
 export function Header({
   title,
-  showBackButton = true,
-  showShareButton = false,
-  onShare,
-}: Props) {
+  hideButtonLeft = false,
+  hideButtonRight = false,
+}: HeaderProps) {
+  const navigation = useNavigation();
+
   return (
     <ContainerHeader>
       <ContentHeader>
-        {showBackButton ? <ButtonIcon icon={CaretLeft} /> : <EmptyBoxSpace />}
+        {hideButtonLeft ? <EmptyBoxSpace /> : <ButtonIcon icon={SignOut} />}
 
         <TitleHeader>{title}</TitleHeader>
 
-        {showShareButton ? (
-          <ButtonIcon icon={Export} onPress={onShare} />
-        ) : (
+        {hideButtonRight ? (
           <EmptyBoxSpace />
+        ) : (
+          <ButtonIcon icon={HeartStraight} iconProps={{ weight: "fill" }} />
         )}
       </ContentHeader>
     </ContainerHeader>

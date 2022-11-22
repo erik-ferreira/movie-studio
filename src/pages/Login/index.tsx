@@ -10,6 +10,7 @@ import { EnvelopeSimple, Lock } from "phosphor-react-native";
 import { auth } from "../../services/firebase";
 
 import { Input } from "../../components/Input";
+import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
 import { TextNavigate } from "../../components/TextNavigate";
 import { SafeAreaBackground } from "../../components/SafeAreaBackground";
@@ -88,6 +89,8 @@ export function Login() {
     <SafeAreaBackground>
       <Image source={logoImg} />
 
+      <Title text="Entrar" />
+
       <Input
         name="email"
         control={control}
@@ -109,7 +112,8 @@ export function Login() {
       <Button
         title="Entrar"
         style={{ marginTop: 12 }}
-        onPress={handleSubmit(handleSignIn)}
+        // onPress={handleSubmit(handleSignIn)}
+        onPress={() => navigation.navigate("Home")}
       />
 
       <TextNavigate
