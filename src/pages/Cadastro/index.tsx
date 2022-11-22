@@ -1,8 +1,7 @@
 import { Image } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useTheme } from "styled-components";
 import { User, EnvelopeSimple, Lock } from "phosphor-react-native";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import logoImg from "../../assets/logo.png";
 
@@ -13,33 +12,39 @@ import { TextNavigate } from "../../components/TextNavigate";
 
 import {} from "./styles";
 
+export function Cadastro() {
+  const { colors } = useTheme();
 
+  function handleCreateAccount() {
+    // createUserWithEmailAndPassword
+  }
 
-export function Cadastro(){
-    const { colors } = useTheme();
+  return (
+    <SafeAreaBackground>
+      <Image source={logoImg} />
 
-    return(
+      <Input
+        label="Nome:"
+        placeholder="jondoe"
+        IconLeft={<User size={24} color={colors.gray500} />}
+      />
+      <Input
+        label="E-mail:"
+        placeholder="jondoe@example.com"
+        IconLeft={<EnvelopeSimple size={24} color={colors.gray500} />}
+      />
+      <Input
+        label="Senha:"
+        placeholder="***********"
+        IconLeft={<Lock size={24} color={colors.gray500} />}
+      />
 
-        <SafeAreaBackground>
-            <Image source={logoImg}/>
+      <Button title="Cadastrar" style={{ marginTop: 12 }} />
 
-            <Input label="Nome:" placeholder="jondoe"
-              IconLeft={<User size={24} color={colors.gray500} />}
-            />
-            <Input label="E-mail:" placeholder="jondoe@example.com"
-             IconLeft={<EnvelopeSimple size={24} color={colors.gray500} />}
-             />
-            <Input label="Senha:"
-            placeholder="***********"
-            IconLeft={<Lock size={24} color={colors.gray500}/>}
-            /> 
-
-            <Button title="Cadastrar" style={{ marginTop:12 }} />
-
-            <TextNavigate label="Ja possuí conta?Faça o login" style={{ marginVertical:18 }}/>
-    
-        </SafeAreaBackground>
-
-
-    );
+      <TextNavigate
+        label="Ja possuí conta?Faça o login"
+        style={{ marginVertical: 18 }}
+      />
+    </SafeAreaBackground>
+  );
 }

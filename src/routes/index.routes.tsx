@@ -7,6 +7,7 @@ const { Navigator, Screen } = createNativeStackNavigator();
 
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
+import { Cadastro } from "../pages/Cadastro";
 
 export function Routes() {
   return (
@@ -19,6 +20,11 @@ export function Routes() {
         <Screen
           name="Login"
           component={Login}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="Cadastro"
+          component={Cadastro}
           options={{ headerShown: false }}
         />
         <Screen name="Home" component={Home} />

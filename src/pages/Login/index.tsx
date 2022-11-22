@@ -33,6 +33,7 @@ type SignInFormData = zod.infer<typeof signInSchema>;
 
 export function Login() {
   const { colors } = useTheme();
+  // navegação de telas
   const navigation = useNavigation();
 
   const {
@@ -78,6 +79,11 @@ export function Login() {
     }
   }
 
+  // função para navegar para a tela de cadastro
+  function handleNavigateScreenCadastro() {
+    navigation.navigate("Cadastro");
+  }
+
   return (
     <SafeAreaBackground>
       <Image source={logoImg} />
@@ -110,7 +116,10 @@ export function Login() {
         label="Esqueceu sua senha?"
         style={{ marginVertical: 16 }}
       />
-      <TextNavigate label="Não possuí conta? Crie uma agora!" />
+      <TextNavigate
+        label="Não possuí conta? Crie uma agora!"
+        onPress={handleNavigateScreenCadastro}
+      />
     </SafeAreaBackground>
   );
 }
