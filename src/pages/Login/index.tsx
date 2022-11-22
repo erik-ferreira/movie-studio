@@ -36,14 +36,18 @@ export function Login() {
   const navigation = useNavigation();
 
   const {
+    // conectar o input
     control,
+    // para enviar os dados
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormData>({
+    // validações aqui
     resolver: zodResolver(signInSchema),
     mode: "all",
   });
 
+  // ignora por em quanto
   async function handleSignIn(data: SignInFormData) {
     try {
       const response = await signInWithEmailAndPassword(
@@ -57,6 +61,7 @@ export function Login() {
       const message = cutMessageErrorFirebase(error?.message);
       let messageAlert = "";
 
+      // validações do firebase
       if (message === "auth/wrong-password") {
         messageAlert = "Senha incorreta";
       } else if (message === "auth/user-not-found") {
@@ -98,8 +103,7 @@ export function Login() {
       <Button
         title="Entrar"
         style={{ marginTop: 12 }}
-        // onPress={handleSubmit(handleSignIn)}
-        onPress={() => navigation.navigate("Home")}
+        onPress={handleSubmit(handleSignIn)}
       />
 
       <TextNavigate
