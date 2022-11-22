@@ -1,12 +1,10 @@
-import { Text } from "react-native";
-
-import { Header } from "../../components/Header";
+import { InputFilter } from "../../components/InputFilter";
 import { SafeAreaBackground } from "../../components/SafeAreaBackground";
 
 export function Home() {
   return (
     <SafeAreaBackground>
-      <Text>a</Text>
+      <InputFilter />
     </SafeAreaBackground>
   );
 }
