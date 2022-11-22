@@ -6,6 +6,7 @@ export const ContainerCardMovie = styled.View`
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.gray700};
   align-items: center;
+  position: relative;
 `;
 
 export const ImageMovie = styled.Image`

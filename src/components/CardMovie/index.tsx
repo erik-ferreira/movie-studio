@@ -1,8 +1,9 @@
 import { View, Image, Text } from "react-native";
-import { Star } from "phosphor-react-native";
+import { Star, HeartStraight } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 
 import { Button } from "../Button";
+import { ButtonIcon } from "../ButtonIcon";
 
 import blackAdamImg from "../../assets/black-adam.png";
 
@@ -19,6 +20,12 @@ export function CardMovie() {
 
   return (
     <ContainerCardMovie>
+      <ButtonIcon
+        icon={HeartStraight}
+        iconProps={{ weight: "fill", color: theme.colors.secondary }}
+        style={{ position: "absolute", right: 8, top: 8, zIndex: 1 }}
+      />
+
       <ImageMovie source={blackAdamImg} />
 
       <TitleMovie>Adão Negro</TitleMovie>
