@@ -21,14 +21,12 @@ interface CardMovieProps {
   movie: MovieDTO;
   isMovieFavorite: boolean;
   onPressFavorite?: () => void;
-  onPressDetails?: () => void;
 }
 
 export function CardMovie({
   movie,
   isMovieFavorite,
   onPressFavorite,
-  onPressDetails,
 }: CardMovieProps) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -36,7 +34,6 @@ export function CardMovie({
   const weightIcon = isMovieFavorite ? "fill" : "regular";
 
   function handleNavigateToPageDetails() {
-    console.log(movie.id);
     navigation.navigate("Detalhes", { movieId: movie.id });
   }
 

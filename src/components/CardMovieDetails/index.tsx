@@ -33,23 +33,20 @@ import { Image, Text } from "react-native";
 interface CardMovieDetailsProps {
   movie: MovieDTO;
   imagesMovie: ImageProps[];
-  // isMovieFavorite: boolean;
-  // onPressFavorite?: () => void;
-  // onPressDetails?: () => void;
+  isMovieFavorite?: boolean;
+  onPressFavorite?: () => void;
 }
 
 export function CardMovieDetails({
   movie,
   imagesMovie,
+  isMovieFavorite = false,
+  onPressFavorite,
 }: CardMovieDetailsProps) {
-  // isMovieFavorite,
-  // onPressFavorite,
-  // onPressDetails,
-
   const theme = useTheme();
   const navigation = useNavigation();
 
-  const weightIcon = true ? "fill" : "regular";
+  const weightIcon = isMovieFavorite ? "fill" : "regular";
   const release_date = movie?.release_date
     ? fixDateMovie(movie?.release_date)
     : "";
@@ -67,6 +64,7 @@ export function CardMovieDetails({
       <TitleMovie>{movie.title}</TitleMovie>
 
       <ButtonIcon
+        onPress={onPressFavorite}
         icon={HeartStraight}
         iconProps={{ weight: weightIcon, color: theme.colors.secondary }}
         style={{ position: "absolute", right: 16, top: 16, zIndex: 1 }}

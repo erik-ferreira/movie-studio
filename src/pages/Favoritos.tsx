@@ -35,9 +35,6 @@ export function Favoritos() {
 
   useEffect(() => {
     getMoviesFavorites();
-    // AsyncStorage.clear().then(() => {
-    //   console.log("clean");
-    // });
   }, []);
 
   return (
