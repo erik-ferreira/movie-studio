@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 
 export const ContainerCardMovie = styled.View`
   width: 48.5%;
+  height: 355px;
   padding: 20px;
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.gray700};
@@ -21,6 +22,7 @@ export const TitleMovie = styled.Text`
   margin-bottom: 10px;
   font-family: ${(props) => props.theme.fonts.semibold};
   color: ${(props) => props.theme.colors.gray100};
+  text-align: center;
 `;
 
 export const ContentEvaluation = styled.View`
