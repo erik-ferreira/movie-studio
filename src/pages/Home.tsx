@@ -3,14 +3,14 @@ import { View, FlatList, Alert, Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { MovieDTO } from "../../dtos/MovieDTO";
+import { MovieDTO } from "../dtos/MovieDTO";
 
-import { getMoviesUpComing } from "../../requests";
+import { getMoviesUpComing } from "../requests";
 
-import { Loading } from "../../components/Loading";
-import { CardMovie } from "../../components/CardMovie";
-import { InputFilter } from "../../components/InputFilter";
-import { SafeAreaBackground } from "../../components/SafeAreaBackground";
+import { Loading } from "../components/Loading";
+import { CardMovie } from "../components/CardMovie";
+import { InputFilter } from "../components/InputFilter";
+import { SafeAreaBackground } from "../components/SafeAreaBackground";
 
 interface PaginationProps {
   page: number;

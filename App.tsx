@@ -13,6 +13,7 @@ import { Routes } from "./src/routes/index.routes";
 import { theme } from "./src/theme/default";
 
 LogBox.ignoreLogs(["AsyncStorage has been extracted"]);
+LogBox.ignoreAllLogs();
 
 export default function App() {
   const [fontsLoaded] = useFonts({

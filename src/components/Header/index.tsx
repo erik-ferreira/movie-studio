@@ -1,5 +1,8 @@
+import { signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { SignOut, HeartStraight, CaretLeft } from "phosphor-react-native";
+
+import { auth } from "../../services/firebase";
 
 import { ButtonIcon } from "../ButtonIcon";
 
@@ -33,6 +36,11 @@ export function Header({
     navigation.navigate("Favoritos");
   }
 
+  async function handleSignOut() {
+    await signOut(auth);
+    navigation.navigate("Login");
+  }
+
   return (
     <ContainerHeader>
       <ContentHeader>
@@ -41,7 +49,7 @@ export function Header({
         ) : isButtonBackInLeft ? (
           <ButtonIcon icon={CaretLeft} onPress={handleNavigateBack} />
         ) : (
-          <ButtonIcon icon={SignOut} />
+          <ButtonIcon icon={SignOut} onPress={handleSignOut} />
         )}
 
         <TitleHeader>{title}</TitleHeader>
