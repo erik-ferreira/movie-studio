@@ -12,9 +12,20 @@ import { InputFilter } from "../../components/InputFilter";
 import { SafeAreaBackground } from "../../components/SafeAreaBackground";
 
 export function Home() {
+  const [searchMovie, setSearchMovie] = useState("");
   const [movies, setMovies] = useState<MovieDTO[]>([]);
   const [moviesFavorites, setMoviesFavorites] = useState<MovieDTO[]>([]);
   const idsMoviesFavorites = moviesFavorites.map((movie) => movie.id);
+
+  const filterMoviesBySearch = !!searchMovie
+    ? movies
+        .map((movie) =>
+          movie.title.toLowerCase().includes(searchMovie.toLowerCase())
+            ? movie
+            : null
+        )
+        .filter(Boolean)
+    : [...movies];
 
   async function onLoadMoviesUpComing() {
     try {
@@ -67,10 +78,14 @@ export function Home() {
 
   return (
     <SafeAreaBackground minimizePadding isScreenMovies>
-      <InputFilter placeholder="Pesquisar..." />
+      <InputFilter
+        placeholder="Pesquisar..."
+        value={searchMovie}
+        onChangeText={setSearchMovie}
+      />
 
       <FlatList
-        data={movies}
+        data={filterMoviesBySearch}
         keyExtractor={(movie) => movie.id.toString()}
         renderItem={({ item: movie }) => (
           <CardMovie
