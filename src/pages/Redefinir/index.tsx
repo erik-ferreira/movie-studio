@@ -1,20 +1,21 @@
 import * as zod from "zod";
 import { Image, Alert } from "react-native";
 import { useTheme } from "styled-components";
-import { EnvelopeSimple, Lock } from "phosphor-react-native";
+import { User, EnvelopeSimple, Lock } from "phosphor-react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../../services/firebase";
 import { cutMessageErrorFirebase } from "../../utils";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import logoImg from "../../assets/logo.png";
 
 import { Input } from "../../components/Input";
 import { SafeAreaBackground } from "../../components/SafeAreaBackground";
-import { Button } from "../../components/Button";
+import { Button, Button2 } from "../../components/Button";
 import { TextNavigate } from "../../components/TextNavigate";
 
 import {} from "./styles";
@@ -31,7 +32,7 @@ const signInSchema = zod.object({
 
 type SignInFormData = zod.infer<typeof signInSchema>;
 
-export function Cadastro() {
+export function Redefinir() {
   const { colors } = useTheme();
 
   const navigation = useNavigation();
@@ -47,37 +48,12 @@ export function Cadastro() {
     resolver: zodResolver(signInSchema),
     mode: "all",
   });
-  
 
-  async function handleCreateAccount(data: SignInFormData) {
+  async function handleResetAccount(data: SignInFormData) {
+     // redefinir
     // createUserWithEmailAndPassword
-    try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        data?.email,
-        data?.password
-      );
 
-      console.log("deu certo", response);
-    } catch (error) {
-      const message = cutMessageErrorFirebase(error?.message);
-      let messageAlert = "";
-
-      // validações do firebase
-      if (message === "auth/wrong-password") {
-        messageAlert = "Senha incorreta";
-      } else if (message === "auth/user-not-found") {
-        messageAlert = "Usuário não encontrado";
-      } else if (message === "auth/too-many-requests") {
-        messageAlert =
-          "Tentativas de login excedidas. Aguarde um tempo e tente novamente";
-      } else {
-        messageAlert =
-          "Ocorreu um problema ao realizar o login, tente novamente!";
-      }
-
-      Alert.alert("", messageAlert);
-    }
+   
   }
 
   function handleNavigateScreenLogin(){
@@ -85,6 +61,7 @@ export function Cadastro() {
     navigation.navigate("Login");
 
   }
+
 
   return (
     <SafeAreaBackground>
@@ -101,29 +78,19 @@ export function Cadastro() {
          />}
       />
 
-      <Input
-        name = " passoword "
-        control = {control}
-        label="Senha:"
-        placeholder="***********"
-        error={errors?.password?.message}
-        IconLeft={<Lock size={24} color={colors.gray500} />}
-        isPassword
-      />
-
-      <Button title="Cadastrar"
+      <Button title="Enviar"
        style={{ marginTop: 12 }} 
        onPress={handleSubmit(handleCreateAccount)}
        />
-
-      <TextNavigate
-        label="Ja possuí conta?Faça o login"
-        style={{ marginVertical: 18 }}
-        onPress={handleNavigateScreenLogin}
-      />
+       <Button2 title="Cancelar"
+       style={{ marginTop: 12  }} 
+       onPress={handleNavigateScreenLogin}
+       />
 
     </SafeAreaBackground>
   );
 }
+
+
 
 
