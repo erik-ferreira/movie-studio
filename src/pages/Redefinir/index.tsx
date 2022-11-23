@@ -5,7 +5,7 @@ import { User, EnvelopeSimple, Lock } from "phosphor-react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 import { auth } from "../../services/firebase";
 import { cutMessageErrorFirebase } from "../../utils";
@@ -24,10 +24,7 @@ import {} from "./styles";
 const signInSchema = zod.object({
   email: zod
     .string({ required_error: "Email obrigatório" })
-    .email("Email incorreto."),
-  password: zod
-    .string({ required_error: "Senha obrigatória" })
-    .min(6, "Senha precisa ter pelo menos 6 caracteres"),
+    .email("Email incorreto.")
 });
 
 type SignInFormData = zod.infer<typeof signInSchema>;
@@ -50,10 +47,33 @@ export function Redefinir() {
   });
 
   async function handleResetAccount(data: SignInFormData) {
-     // redefinir
-    // createUserWithEmailAndPassword
+    // sendPasswordResetEmail
+    try {
+      const response = await sendPasswordResetEmail(
+        auth,
+        data?.email
+      );
 
-   
+      console.log("deu certo", response);
+    } catch (error) {
+      const message = cutMessageErrorFirebase(error?.message);
+      let messageAlert = "";
+
+      // validações do firebase
+      if (message === "auth/wrong-password") {
+        messageAlert = "Email incorreta";
+      } else if (message === "auth/user-not-found") {
+        messageAlert = "Usuário não encontrado";
+      } else if (message === "auth/too-many-requests") {
+        messageAlert =
+          "Tentativas de login excedidas. Aguarde um tempo e tente novamente";
+      } else {
+        messageAlert =
+          "Ocorreu um problema ao realizar o login, tente novamente!";
+      }
+
+      Alert.alert("", messageAlert);
+    }
   }
 
   function handleNavigateScreenLogin(){
@@ -69,7 +89,7 @@ export function Redefinir() {
 
  
       <Input
-        name = " email "
+        name = "email"
         control = {control}
         label="E-mail:"
         placeholder="jondoe@example.com"
@@ -80,7 +100,7 @@ export function Redefinir() {
 
       <Button title="Enviar"
        style={{ marginTop: 12 }} 
-       onPress={handleSubmit(handleCreateAccount)}
+       onPress={handleSubmit(handleResetAccount)}
        />
        <Button2 title="Cancelar"
        style={{ marginTop: 12  }} 

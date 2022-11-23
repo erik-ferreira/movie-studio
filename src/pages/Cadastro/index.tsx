@@ -92,7 +92,7 @@ export function Cadastro() {
 
  
       <Input
-        name = " email "
+        name = "email"
         control = {control}
         label="E-mail:"
         placeholder="jondoe@example.com"
@@ -102,7 +102,7 @@ export function Cadastro() {
       />
 
       <Input
-        name = " passoword "
+        name = "password"
         control = {control}
         label="Senha:"
         placeholder="***********"
