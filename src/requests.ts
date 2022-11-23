@@ -1,7 +1,7 @@
 // -------- configs --------
 import axios from "axios";
 
-import { MovieDTO } from "./dtos/MovieDTO";
+import { MovieDTO, ImagesMovie } from "./dtos/MovieDTO";
 
 const apiKeyMovieDB = "2e197f6f1cb05c42e43b100e12936b69";
 const api = axios.create({
@@ -42,8 +42,20 @@ export function getUrlMovie(pathImage: string) {
 
 export async function getMovieDetails(movieId: string) {
   const response = await api.get<MovieDTO>(
-    `/movie/${movieId}?api_key=2e197f6f1cb05c42e43b100e12936b69&language=pt-BR`
+    `/movie/${movieId}?api_key=${apiKeyMovieDB}&language=pt-BR`
   );
 
   return response;
 }
+
+// -------- get images movie --------
+
+export async function getImagesMovie(movieId: string) {
+  const response = await api.get<ImagesMovie>(
+    `/movie/${movieId}/images?api_key=${apiKeyMovieDB}`
+  );
+
+  return response;
+}
+
+// https://api.themoviedb.org/3/movie/663712/images?api_key={{ _.api_key }}

@@ -19,9 +19,12 @@ export interface MovieDTO {
       name: string;
     }
   ];
-  // genre_ids: [35, 27, 53];
-  // original_language: "en";
-  // popularity: 507.983;
-  // video: false;
-  // vote_count: 126;
+}
+
+export interface ImageProps {
+  file_path: string;
+}
+
+export interface ImagesMovie {
+  backdrops: ImageProps[];
 }

@@ -106,3 +106,5 @@ export const TextButtonSection = styled.Text<SectionProps>`
       ? props.theme.colors.secondary
       : props.theme.colors.gray100};
 `;
+
+export const ContentImagesGallery = styled.View``;

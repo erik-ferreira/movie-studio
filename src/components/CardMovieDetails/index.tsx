@@ -1,13 +1,11 @@
-import { Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Star, HeartStraight } from "phosphor-react-native";
 
-import { MovieDTO } from "../../dtos/MovieDTO";
+import { MovieDTO, ImageProps } from "../../dtos/MovieDTO";
 
 import { getUrlMovie } from "../../requests";
 
-import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 
 import { fixDateMovie } from "../../utils";
@@ -26,18 +24,24 @@ import {
   ButtonSection,
   TextButtonSection,
   SinopseText,
+  ContentImagesGallery,
 } from "./styles";
 
 import { useState } from "react";
+import { Image, Text } from "react-native";
 
 interface CardMovieDetailsProps {
   movie: MovieDTO;
+  imagesMovie: ImageProps[];
   // isMovieFavorite: boolean;
   // onPressFavorite?: () => void;
   // onPressDetails?: () => void;
 }
 
-export function CardMovieDetails({ movie }: CardMovieDetailsProps) {
+export function CardMovieDetails({
+  movie,
+  imagesMovie,
+}: CardMovieDetailsProps) {
   // isMovieFavorite,
   // onPressFavorite,
   // onPressDetails,
@@ -115,8 +119,25 @@ export function CardMovieDetails({ movie }: CardMovieDetailsProps) {
         </ButtonSection>
       </ContentSectionButtons>
 
-      {sectionSelected === "sinopse" && (
+      {sectionSelected === "sinopse" ? (
         <SinopseText>{movie.overview}</SinopseText>
+      ) : (
+        <ContentImagesGallery>
+          {imagesMovie.length === 0 ? (
+            <SinopseText style={{ textAlign: "center" }}>
+              Nenhuma imagem encontrada
+            </SinopseText>
+          ) : (
+            imagesMovie.map((image) => (
+              <Image
+                key={image.file_path}
+                source={{ uri: getUrlMovie(image.file_path) }}
+                resizeMode="contain"
+                style={{ width: "100%", height: 240 }}
+              />
+            ))
+          )}
+        </ContentImagesGallery>
       )}
     </ContainerCardMovieDetails>
   );
