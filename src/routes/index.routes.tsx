@@ -12,6 +12,8 @@ import { Favoritos } from "../pages/Favoritos";
 import { Detalhes } from "../pages/Detalhes";
 
 export function Routes() {
+  const routesHide = ["Favoritos", "Detalhes"];
+
   return (
     <NavigationContainer>
       <Navigator
@@ -19,8 +21,8 @@ export function Routes() {
           header: (props) => (
             <Header
               title={props.route?.name}
-              hideButtonRight={props?.route?.name === "Favoritos"}
-              isButtonBackInLeft={props?.route?.name === "Favoritos"}
+              hideButtonRight={routesHide?.includes(props?.route?.name)}
+              isButtonBackInLeft={routesHide?.includes(props?.route?.name)}
             />
           ),
         }}
