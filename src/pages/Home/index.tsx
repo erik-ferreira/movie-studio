@@ -159,14 +159,18 @@ export function Home() {
           ItemSeparatorComponent={() => (
             <View style={{ width: "100%", height: 10 }} />
           )}
-          onEndReachedThreshold={0.6}
-          onEndReached={() => onLoadMoviesUpComing(true)}
+          onEndReachedThreshold={0.2}
+          onEndReached={() => {
+            if (!searchMovie) {
+              onLoadMoviesUpComing(true);
+            }
+          }}
           ListFooterComponent={
-            loadingMoreMovies ? null : (
+            loadingMoreMovies ? (
               <View style={{ marginTop: 20 }}>
                 <Loading />
               </View>
-            )
+            ) : null
           }
         />
       )}
