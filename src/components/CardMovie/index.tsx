@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { useTheme } from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 import { Star, HeartStraight } from "phosphor-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { MovieDTO } from "../../dtos/MovieDTO";
 
@@ -32,8 +31,14 @@ export function CardMovie({
   onPressDetails,
 }: CardMovieProps) {
   const theme = useTheme();
+  const navigation = useNavigation();
 
   const weightIcon = isMovieFavorite ? "fill" : "regular";
+
+  function handleNavigateToPageDetails() {
+    console.log(movie.id);
+    navigation.navigate("Detalhes");
+  }
 
   return (
     <ContainerCardMovie>
@@ -44,7 +49,7 @@ export function CardMovie({
         style={{ position: "absolute", right: 8, top: 8, zIndex: 1 }}
       />
 
-      <ImageMovie source={{ uri: getUrlMovie(movie.backdrop_path) }} />
+      <ImageMovie source={{ uri: getUrlMovie(movie.poster_path) }} />
 
       <TitleMovie numberOfLines={1}>{movie.title}</TitleMovie>
 
@@ -53,7 +58,7 @@ export function CardMovie({
         <Star size={20} weight="fill" color={theme.colors.secondary} />
       </ContentEvaluation>
 
-      <Button title="Detalhes" onPress={onPressDetails} />
+      <Button title="Detalhes" onPress={handleNavigateToPageDetails} />
     </ContainerCardMovie>
   );
 }

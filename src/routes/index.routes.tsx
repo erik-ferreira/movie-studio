@@ -9,6 +9,7 @@ import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Cadastro } from "../pages/Cadastro";
 import { Favoritos } from "../pages/Favoritos";
+import { Detalhes } from "../pages/Detalhes";
 
 export function Routes() {
   return (
@@ -35,6 +36,11 @@ export function Routes() {
           options={{ headerShown: false }}
         />
         <Screen name="Home" component={Home} />
+        <Screen
+          name="Detalhes"
+          component={Detalhes}
+          options={{ title: "Detalhes" }}
+        />
         <Screen name="Favoritos" component={Favoritos} />
       </Navigator>
     </NavigationContainer>
