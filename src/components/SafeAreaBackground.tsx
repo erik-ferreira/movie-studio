@@ -4,9 +4,27 @@ import styled from "styled-components/native";
 
 interface SafeAreaBackgroundProps {
   children: ReactNode;
+  minimizePadding?: boolean;
+  isScreenMovies?: boolean;
 }
 
-export function SafeAreaBackground({ children }: SafeAreaBackgroundProps) {
+export function SafeAreaBackground({
+  children,
+  isScreenMovies,
+  minimizePadding,
+}: SafeAreaBackgroundProps) {
+  if (isScreenMovies) {
+    return (
+      <SafeAreaContainer
+        style={{
+          paddingHorizontal: 16,
+        }}
+      >
+        {children}
+      </SafeAreaContainer>
+    );
+  }
+
   return (
     <SafeAreaContainer>
       <ScrollView
@@ -15,7 +33,7 @@ export function SafeAreaBackground({ children }: SafeAreaBackgroundProps) {
         }}
         contentContainerStyle={{
           alignItems: "center",
-          paddingHorizontal: 32,
+          paddingHorizontal: minimizePadding ? 16 : 32,
           paddingVertical: 32,
         }}
         showsVerticalScrollIndicator={false}

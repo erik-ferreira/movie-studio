@@ -1,24 +1,24 @@
 import * as zod from "zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Image, Alert } from "react-native";
 import { useTheme } from "styled-components";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { EnvelopeSimple, Lock } from "phosphor-react-native";
 
-import { auth } from "../../services/firebase";
+import { auth } from "../services/firebase";
 
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
-import { TextNavigate } from "../../components/TextNavigate";
-import { SafeAreaBackground } from "../../components/SafeAreaBackground";
+import { Input } from "../components/Input";
+import { Title } from "../components/Title";
+import { Button } from "../components/Button";
+import { TextNavigate } from "../components/TextNavigate";
+import { SafeAreaBackground } from "../components/SafeAreaBackground";
 
-import logoImg from "../../assets/logo.png";
+import logoImg from "../assets/logo.png";
 
-import { cutMessageErrorFirebase } from "../../utils";
-
-import {} from "./styles";
+import { cutMessageErrorFirebase } from "../utils";
 
 const signInSchema = zod.object({
   email: zod
@@ -36,12 +36,15 @@ export function Login() {
   // navegação de telas
   const navigation = useNavigation();
 
+  const [loadingSignIn, setLoadingSignIn] = useState(false);
+
   const {
     // conectar o input
     control,
     // para enviar os dados
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignInFormData>({
     // validações aqui
     resolver: zodResolver(signInSchema),
@@ -51,14 +54,18 @@ export function Login() {
   // ignora por em quanto
   async function handleSignIn(data: SignInFormData) {
     try {
-      const response = await signInWithEmailAndPassword(
+      setLoadingSignIn(true);
+
+      await signInWithEmailAndPassword(
         auth,
-        data?.email,
-        data?.password
+        data?.email.trim(),
+        data?.password.trim()
       );
 
-      console.log("deu certo", response);
+      reset();
+      navigation.navigate("Home");
     } catch (error) {
+      console.log("erro", error);
       const message = cutMessageErrorFirebase(error?.message);
       let messageAlert = "";
 
@@ -76,6 +83,8 @@ export function Login() {
       }
 
       Alert.alert("", messageAlert);
+    } finally {
+      setLoadingSignIn(false);
     }
   }
 
@@ -84,9 +93,15 @@ export function Login() {
     navigation.navigate("Cadastro");
   }
 
+  function handleNavigateScreenRedefinir() {
+    navigation.navigate("Redefinir");
+  }
+
   return (
     <SafeAreaBackground>
       <Image source={logoImg} />
+
+      <Title text="Entrar" />
 
       <Input
         name="email"
@@ -109,12 +124,14 @@ export function Login() {
       <Button
         title="Entrar"
         style={{ marginTop: 12 }}
+        loading={loadingSignIn}
         onPress={handleSubmit(handleSignIn)}
       />
 
       <TextNavigate
         label="Esqueceu sua senha?"
         style={{ marginVertical: 16 }}
+        onPress={handleNavigateScreenRedefinir}
       />
       <TextNavigate
         label="Não possuí conta? Crie uma agora!"

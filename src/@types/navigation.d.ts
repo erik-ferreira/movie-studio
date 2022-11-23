@@ -4,6 +4,11 @@ export declare global {
       Login: undefined;
       Home: undefined;
       Cadastro: undefined;
+      Favoritos: undefined;
+      Detalhes: {
+        movieId: number;
+      };
+      Redefinir: undefined;
     }
   }
 }
