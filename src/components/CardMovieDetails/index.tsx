@@ -1,3 +1,4 @@
+import { Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Star, HeartStraight } from "phosphor-react-native";
@@ -19,7 +20,11 @@ import {
   TitleMovie,
   ContentEvaluation,
   TextEvaluation,
+  ContentSectionButtons,
+  ButtonSection,
+  TextButtonSection,
 } from "./styles";
+import { useState } from "react";
 
 interface CardMovieDetailsProps {
   // movie: MovieDTO;
@@ -38,12 +43,15 @@ CardMovieDetailsProps) {
 
   const weightIcon = true ? "fill" : "regular";
 
+  const [sectionSelected, setSectionSelected] = useState<"sinopse" | "gallery">(
+    "sinopse"
+  );
+
   return (
     <ContainerCardMovieDetails>
       <TitleMovie>Adão Negro</TitleMovie>
 
       <ButtonIcon
-        // onPress={onPressFavorite}
         icon={HeartStraight}
         iconProps={{ weight: weightIcon, color: theme.colors.secondary }}
         style={{ position: "absolute", right: 8, top: 8, zIndex: 1 }}
@@ -78,6 +86,26 @@ CardMovieDetailsProps) {
           </ContentEvaluation>
         </BlockRightHeader>
       </ContentHeaderCard>
+
+      <ContentSectionButtons>
+        <ButtonSection
+          onPress={() => setSectionSelected("sinopse")}
+          isSelected={sectionSelected === "sinopse"}
+        >
+          <TextButtonSection isSelected={sectionSelected === "sinopse"}>
+            Sinopse
+          </TextButtonSection>
+        </ButtonSection>
+
+        <ButtonSection
+          onPress={() => setSectionSelected("gallery")}
+          isSelected={sectionSelected === "gallery"}
+        >
+          <TextButtonSection isSelected={sectionSelected === "gallery"}>
+            Galeria
+          </TextButtonSection>
+        </ButtonSection>
+      </ContentSectionButtons>
     </ContainerCardMovieDetails>
   );
 }

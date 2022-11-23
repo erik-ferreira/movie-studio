@@ -1,8 +1,7 @@
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
 
 export const ContainerCardMovieDetails = styled.View`
   width: 100%;
-  height: 355px;
   padding: 20px;
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.gray700};
@@ -59,4 +58,42 @@ export const TextEvaluation = styled.Text`
   margin: 0 4px;
   color: ${(props) => props.theme.colors.gray100};
   font-family: ${(props) => props.theme.fonts.semibold};
+`;
+
+export const ContentSectionButtons = styled.View`
+  height: 48px;
+  margin-top: 16px;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+interface SectionProps {
+  isSelected: boolean;
+}
+
+export const ButtonSection = styled.TouchableOpacity<SectionProps>`
+  width: 50%;
+  height: 100%;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+
+  ${(props) =>
+    props.isSelected &&
+    css`
+      border-bottom-width: 2px;
+      border-bottom-color: ${(props) => props.theme.colors.secondary};
+    `}
+`;
+
+export const TextButtonSection = styled.Text<SectionProps>`
+  font-size: 14px;
+  font-weight: 600;
+  font-family: ${(props) => props.theme.fonts.semibold};
+  color: ${(props) =>
+    props.isSelected
+      ? props.theme.colors.secondary
+      : props.theme.colors.gray100};
 `;
