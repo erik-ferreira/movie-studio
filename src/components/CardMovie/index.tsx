@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "styled-components/native";
 import { Star, HeartStraight } from "phosphor-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,37 +17,28 @@ import {
   ContentEvaluation,
   TextEvaluation,
 } from "./styles";
-import { useState } from "react";
 
 interface CardMovieProps {
   movie: MovieDTO;
+  isMovieFavorite: boolean;
+  onPressFavorite?: () => void;
+  onPressDetails?: () => void;
 }
 
-export function CardMovie({ movie }: CardMovieProps) {
+export function CardMovie({
+  movie,
+  isMovieFavorite,
+  onPressFavorite,
+  onPressDetails,
+}: CardMovieProps) {
   const theme = useTheme();
 
-  const [idsMoviesFavorites, setIdsMoviesFavorites] = useState<number[]>([]);
-
-  function toggleMovieFavorite() {
-    const movieId = movie.id;
-    const movieIsFavorite = idsMoviesFavorites.includes(movieId);
-
-    if (movieIsFavorite) {
-      const newIdsMoviesFavorites = idsMoviesFavorites.filter(
-        (movie) => movie !== movieId
-      );
-
-      setIdsMoviesFavorites(newIdsMoviesFavorites);
-    } else {
-      setIdsMoviesFavorites((prevState) => [...prevState, movieId]);
-    }
-  }
-  const weightIcon = idsMoviesFavorites.includes(movie.id) ? "fill" : "regular";
+  const weightIcon = isMovieFavorite ? "fill" : "regular";
 
   return (
     <ContainerCardMovie>
       <ButtonIcon
-        onPress={toggleMovieFavorite}
+        onPress={onPressFavorite}
         icon={HeartStraight}
         iconProps={{ weight: weightIcon, color: theme.colors.secondary }}
         style={{ position: "absolute", right: 8, top: 8, zIndex: 1 }}
@@ -61,7 +53,7 @@ export function CardMovie({ movie }: CardMovieProps) {
         <Star size={20} weight="fill" color={theme.colors.secondary} />
       </ContentEvaluation>
 
-      <Button title="Detalhes" />
+      <Button title="Detalhes" onPress={onPressDetails} />
     </ContainerCardMovie>
   );
 }

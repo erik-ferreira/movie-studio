@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, FlatList, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { MovieDTO } from "../../dtos/MovieDTO";
 
@@ -11,6 +12,7 @@ import { SafeAreaBackground } from "../../components/SafeAreaBackground";
 
 export function Home() {
   const [movies, setMovies] = useState<MovieDTO[]>([]);
+  const [idsMoviesFavorites, setIdsMoviesFavorites] = useState<number[]>([]);
 
   async function onLoadMoviesUpComing() {
     try {
@@ -25,8 +27,38 @@ export function Home() {
     }
   }
 
+  async function toggleMovieFavorite(movieId: number) {
+    const movieIsFavorite = idsMoviesFavorites.includes(movieId);
+
+    let listMoviesUpdated: number[] = [];
+    if (movieIsFavorite) {
+      listMoviesUpdated = idsMoviesFavorites.filter(
+        (movie) => movie !== movieId
+      );
+    } else {
+      listMoviesUpdated = [...idsMoviesFavorites, movieId];
+    }
+
+    setIdsMoviesFavorites(listMoviesUpdated);
+    await AsyncStorage.setItem(
+      "@MOVIE_STUDIO:favorites",
+      JSON.stringify(listMoviesUpdated)
+    );
+  }
+
+  async function getMoviesFavorites() {
+    const moviesFavorites = await AsyncStorage.getItem(
+      "@MOVIE_STUDIO:favorites"
+    );
+
+    if (moviesFavorites) {
+      setIdsMoviesFavorites(JSON.parse(moviesFavorites));
+    }
+  }
+
   useEffect(() => {
     onLoadMoviesUpComing();
+    getMoviesFavorites();
   }, []);
 
   return (
@@ -36,7 +68,13 @@ export function Home() {
       <FlatList
         data={movies}
         keyExtractor={(movie) => movie.id.toString()}
-        renderItem={({ item: movie }) => <CardMovie movie={movie} />}
+        renderItem={({ item: movie }) => (
+          <CardMovie
+            movie={movie}
+            isMovieFavorite={idsMoviesFavorites.includes(movie.id)}
+            onPressFavorite={() => toggleMovieFavorite(movie.id)}
+          />
+        )}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         style={{
