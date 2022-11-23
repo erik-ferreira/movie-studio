@@ -9,7 +9,7 @@ export function Home() {
 
   return (
     <SafeAreaBackground minimizePadding isScreenMovies>
-      <InputFilter />
+      <InputFilter placeholder="Pesquisar..." />
 
       <FlatList
         data={list}

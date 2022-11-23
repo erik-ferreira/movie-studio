@@ -1,10 +1,12 @@
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInputProps, View } from "react-native";
 import { useTheme } from "styled-components/native";
 import { MagnifyingGlass } from "phosphor-react-native";
 
 import { ContainerInputRNFilter, InputRNFilter, styleIcon } from "./styles";
 
-export function InputFilter() {
+interface InputFilterProps extends TextInputProps {}
+
+export function InputFilter({ ...rest }: InputFilterProps) {
   const theme = useTheme();
 
   return (
@@ -15,7 +17,7 @@ export function InputFilter() {
         style={styleIcon}
       />
 
-      <InputRNFilter />
+      <InputRNFilter placeholderTextColor={theme.colors.gray500} {...rest} />
     </ContainerInputRNFilter>
   );
 }
