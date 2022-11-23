@@ -10,11 +10,18 @@ const api = axios.create({
 interface ReturnGetMovies {
   page: number;
   results: MovieDTO[];
+  total_pages: number;
 }
 
-export async function getMoviesUpComing() {
+interface ParamsGetMovies {
+  page?: number;
+}
+
+export async function getMoviesUpComing(params?: ParamsGetMovies) {
   const response = await api.get<ReturnGetMovies>(
-    `/movie/upcoming?api_key=${apiKeyMovieDB}`
+    `/movie/upcoming?api_key=${apiKeyMovieDB}&language=pt-BR&page=${
+      params?.page || 1
+    }`
   );
 
   return response;
