@@ -8,13 +8,20 @@ const { Navigator, Screen } = createNativeStackNavigator();
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Cadastro } from "../pages/Cadastro";
+import { Favoritos } from "../pages/Favoritos";
 
 export function Routes() {
   return (
     <NavigationContainer>
       <Navigator
         screenOptions={{
-          header: (props) => <Header title={props.route?.name} />,
+          header: (props) => (
+            <Header
+              title={props.route?.name}
+              hideButtonRight={props?.route?.name === "Favoritos"}
+              isButtonBackInLeft={props?.route?.name === "Favoritos"}
+            />
+          ),
         }}
       >
         <Screen
@@ -28,6 +35,7 @@ export function Routes() {
           options={{ headerShown: false }}
         />
         <Screen name="Home" component={Home} />
+        <Screen name="Favoritos" component={Favoritos} />
       </Navigator>
     </NavigationContainer>
   );
