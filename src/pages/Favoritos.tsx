@@ -1,32 +1,31 @@
 import { useEffect, useState } from "react";
 import { View, FlatList, Alert } from "react-native";
 
-import { MovieDTO } from "../../dtos/MovieDTO";
+import { MovieDTO } from "../dtos/MovieDTO";
 
-import { getMoviesUpComing } from "../../requests";
+import { getMoviesUpComing } from "../requests";
 
-import { CardMovie } from "../../components/CardMovie";
-import { InputFilter } from "../../components/InputFilter";
-import { SafeAreaBackground } from "../../components/SafeAreaBackground";
+import { CardMovie } from "../components/CardMovie";
+import { InputFilter } from "../components/InputFilter";
+import { SafeAreaBackground } from "../components/SafeAreaBackground";
 
-export function Home() {
+export function Favoritos() {
   const [movies, setMovies] = useState<MovieDTO[]>([]);
 
-  async function onLoadMoviesUpComing() {
-    try {
-      const response = await getMoviesUpComing();
-
-      if (response.status === 200) {
-        setMovies(response.data.results);
-      }
-    } catch (error) {
-      console.log("error", error);
-      Alert.alert("Não foi possível buscar os filmes");
-    }
+  async function onLoadMoviesFavorites() {
+    // try {
+    //   const response = await getMoviesUpComing();
+    //   if (response.status === 200) {
+    //     setMovies(response.data.results);
+    //   }
+    // } catch (error) {
+    //   console.log("error", error);
+    //   Alert.alert("Não foi possível buscar os filmes");
+    // }
   }
 
   useEffect(() => {
-    onLoadMoviesUpComing();
+    onLoadMoviesFavorites();
   }, []);
 
   return (
