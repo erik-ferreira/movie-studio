@@ -85,6 +85,10 @@ export function Login() {
     navigation.navigate("Cadastro");
   }
 
+  function handleNavigateScreenRedefinir() {
+    navigation.navigate("Redefinir");
+  }
+
   return (
     <SafeAreaBackground>
       <Image source={logoImg} />
@@ -119,6 +123,7 @@ export function Login() {
       <TextNavigate
         label="Esqueceu sua senha?"
         style={{ marginVertical: 16 }}
+        onPress={handleNavigateScreenRedefinir}
       />
       <TextNavigate
         label="Não possuí conta? Crie uma agora!"

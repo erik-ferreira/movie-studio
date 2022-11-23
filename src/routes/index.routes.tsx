@@ -10,6 +10,7 @@ import { Login } from "../pages/Login";
 import { Cadastro } from "../pages/Cadastro";
 import { Favoritos } from "../pages/Favoritos";
 import { Detalhes } from "../pages/Detalhes";
+import { Redefinir } from "../pages/Redefinir";
 
 export function Routes() {
   const routesHide = ["Favoritos", "Detalhes"];
@@ -35,6 +36,11 @@ export function Routes() {
         <Screen
           name="Cadastro"
           component={Cadastro}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="Redefinir"
+          component={Redefinir}
           options={{ headerShown: false }}
         />
         <Screen name="Home" component={Home} />

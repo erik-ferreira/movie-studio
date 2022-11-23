@@ -8,6 +8,7 @@ export declare global {
       Detalhes: {
         movieId: number;
       };
+      Redefinir: undefined;
     }
   }
 }

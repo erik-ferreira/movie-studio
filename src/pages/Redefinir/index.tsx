@@ -1,20 +1,21 @@
 import * as zod from "zod";
 import { Image, Alert } from "react-native";
 import { useTheme } from "styled-components";
-import { EnvelopeSimple, Lock } from "phosphor-react-native";
+import { User, EnvelopeSimple, Lock } from "phosphor-react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 import { auth } from "../../services/firebase";
 import { cutMessageErrorFirebase } from "../../utils";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import logoImg from "../../assets/logo.png";
 
 import { Input } from "../../components/Input";
 import { SafeAreaBackground } from "../../components/SafeAreaBackground";
-import { Button } from "../../components/Button";
+import { Button, Button2 } from "../../components/Button";
 import { TextNavigate } from "../../components/TextNavigate";
 
 import {} from "./styles";
@@ -23,15 +24,12 @@ import {} from "./styles";
 const signInSchema = zod.object({
   email: zod
     .string({ required_error: "Email obrigatório" })
-    .email("Email incorreto."),
-  password: zod
-    .string({ required_error: "Senha obrigatória" })
-    .min(6, "Senha precisa ter pelo menos 6 caracteres"),
+    .email("Email incorreto.")
 });
 
 type SignInFormData = zod.infer<typeof signInSchema>;
 
-export function Cadastro() {
+export function Redefinir() {
   const { colors } = useTheme();
 
   const navigation = useNavigation();
@@ -47,15 +45,13 @@ export function Cadastro() {
     resolver: zodResolver(signInSchema),
     mode: "all",
   });
-  
 
-  async function handleCreateAccount(data: SignInFormData) {
-    // createUserWithEmailAndPassword
+  async function handleResetAccount(data: SignInFormData) {
+    // sendPasswordResetEmail
     try {
-      const response = await createUserWithEmailAndPassword(
+      const response = await sendPasswordResetEmail(
         auth,
-        data?.email,
-        data?.password
+        data?.email
       );
 
       console.log("deu certo", response);
@@ -65,7 +61,7 @@ export function Cadastro() {
 
       // validações do firebase
       if (message === "auth/wrong-password") {
-        messageAlert = "Senha incorreta";
+        messageAlert = "Email incorreta";
       } else if (message === "auth/user-not-found") {
         messageAlert = "Usuário não encontrado";
       } else if (message === "auth/too-many-requests") {
@@ -86,6 +82,7 @@ export function Cadastro() {
 
   }
 
+
   return (
     <SafeAreaBackground>
       <Image source={logoImg} />
@@ -101,29 +98,19 @@ export function Cadastro() {
          />}
       />
 
-      <Input
-        name = "password"
-        control = {control}
-        label="Senha:"
-        placeholder="***********"
-        error={errors?.password?.message}
-        IconLeft={<Lock size={24} color={colors.gray500} />}
-        isPassword
-      />
-
-      <Button title="Cadastrar"
+      <Button title="Enviar"
        style={{ marginTop: 12 }} 
-       onPress={handleSubmit(handleCreateAccount)}
+       onPress={handleSubmit(handleResetAccount)}
        />
-
-      <TextNavigate
-        label="Ja possuí conta?Faça o login"
-        style={{ marginVertical: 18 }}
-        onPress={handleNavigateScreenLogin}
-      />
+       <Button2 title="Cancelar"
+       style={{ marginTop: 12  }} 
+       onPress={handleNavigateScreenLogin}
+       />
 
     </SafeAreaBackground>
   );
 }
+
+
 
 
