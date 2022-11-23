@@ -1,3 +1,4 @@
+// -------- configs --------
 import axios from "axios";
 
 import { MovieDTO } from "./dtos/MovieDTO";
@@ -6,6 +7,8 @@ const apiKeyMovieDB = "2e197f6f1cb05c42e43b100e12936b69";
 const api = axios.create({
   baseURL: `https://api.themoviedb.org/3`,
 });
+
+// -------- get movies --------
 
 interface ReturnGetMovies {
   page: number;
@@ -27,8 +30,20 @@ export async function getMoviesUpComing(params?: ParamsGetMovies) {
   return response;
 }
 
+// -------- get url movie --------
+
 export function getUrlMovie(pathImage: string) {
   const urlMovie = `https://image.tmdb.org/t/p/w342/${pathImage}`;
 
   return urlMovie;
+}
+
+// -------- get details one movie --------
+
+export async function getMovieDetails(movieId: string) {
+  const response = await api.get<MovieDTO>(
+    `/movie/${movieId}?api_key=2e197f6f1cb05c42e43b100e12936b69&language=pt-BR`
+  );
+
+  return response;
 }

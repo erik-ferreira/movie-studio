@@ -5,7 +5,9 @@ export declare global {
       Home: undefined;
       Cadastro: undefined;
       Favoritos: undefined;
-      Detalhes: undefined;
+      Detalhes: {
+        movieId: number;
+      };
     }
   }
 }

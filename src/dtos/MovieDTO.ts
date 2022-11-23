@@ -7,6 +7,18 @@ export interface MovieDTO {
   release_date: string;
   title: string;
   vote_average: number;
+  genres?: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
+  production_companies?: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
   // genre_ids: [35, 27, 53];
   // original_language: "en";
   // popularity: 507.983;

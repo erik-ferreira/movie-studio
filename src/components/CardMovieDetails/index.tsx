@@ -10,6 +10,8 @@ import { getUrlMovie } from "../../requests";
 import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 
+import { fixDateMovie } from "../../utils";
+
 import {
   ContainerCardMovieDetails,
   ContentHeaderCard,
@@ -23,25 +25,34 @@ import {
   ContentSectionButtons,
   ButtonSection,
   TextButtonSection,
+  SinopseText,
 } from "./styles";
+
 import { useState } from "react";
 
 interface CardMovieDetailsProps {
-  // movie: MovieDTO;
+  movie: MovieDTO;
   // isMovieFavorite: boolean;
   // onPressFavorite?: () => void;
   // onPressDetails?: () => void;
 }
 
-export function CardMovieDetails({}: // movie,
-// isMovieFavorite,
-// onPressFavorite,
-// onPressDetails,
-CardMovieDetailsProps) {
+export function CardMovieDetails({ movie }: CardMovieDetailsProps) {
+  // isMovieFavorite,
+  // onPressFavorite,
+  // onPressDetails,
+
   const theme = useTheme();
   const navigation = useNavigation();
 
   const weightIcon = true ? "fill" : "regular";
+  const release_date = movie?.release_date
+    ? fixDateMovie(movie?.release_date)
+    : "";
+  const formatGenres = movie?.genres?.map((genre) => genre.name).join(", ");
+  const formatCompanies = movie?.production_companies
+    ?.map((companie) => companie.name)
+    .join(", ");
 
   const [sectionSelected, setSectionSelected] = useState<"sinopse" | "gallery">(
     "sinopse"
@@ -49,39 +60,36 @@ CardMovieDetailsProps) {
 
   return (
     <ContainerCardMovieDetails>
-      <TitleMovie>Adão Negro</TitleMovie>
+      <TitleMovie>{movie.title}</TitleMovie>
 
       <ButtonIcon
         icon={HeartStraight}
         iconProps={{ weight: weightIcon, color: theme.colors.secondary }}
-        style={{ position: "absolute", right: 8, top: 8, zIndex: 1 }}
+        style={{ position: "absolute", right: 16, top: 16, zIndex: 1 }}
       />
 
       <ContentHeaderCard>
         <ImageMovie
           source={{
-            uri: "https://image.tmdb.org/t/p/w342/9z256FFPDsL7kSVJ9oyLELaN1ph.jpg",
+            uri: getUrlMovie(movie.poster_path),
           }}
           resizeMode="contain"
         />
 
         <BlockRightHeader>
           <Label>Data de lançamento:</Label>
-          <Value>20/10/2022</Value>
+          <Value>{release_date}</Value>
 
-          <Label>Direção</Label>
-          <Value>Jaume</Value>
+          <Label>Gêneros</Label>
+          <Value>{formatGenres}</Value>
 
-          <Label>Roteiro:</Label>
-          <Value>Adam Sztykiel e Rory Haines</Value>
-
-          <Label>Elenco:</Label>
-          <Value>Dwayne Johnson, Aldis Hodge e Pierce Brosman</Value>
+          <Label>Empresas:</Label>
+          <Value>{formatCompanies}</Value>
 
           <ContentEvaluation>
             <Label>Avaliação:</Label>
 
-            <TextEvaluation>7.8</TextEvaluation>
+            <TextEvaluation>{movie.vote_average}</TextEvaluation>
             <Star size={20} weight="fill" color={theme.colors.secondary} />
           </ContentEvaluation>
         </BlockRightHeader>
@@ -106,6 +114,10 @@ CardMovieDetailsProps) {
           </TextButtonSection>
         </ButtonSection>
       </ContentSectionButtons>
+
+      {sectionSelected === "sinopse" && (
+        <SinopseText>{movie.overview}</SinopseText>
+      )}
     </ContainerCardMovieDetails>
   );
 }

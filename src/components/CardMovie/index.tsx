@@ -37,7 +37,7 @@ export function CardMovie({
 
   function handleNavigateToPageDetails() {
     console.log(movie.id);
-    navigation.navigate("Detalhes");
+    navigation.navigate("Detalhes", { movieId: movie.id });
   }
 
   return (

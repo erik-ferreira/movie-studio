@@ -29,11 +29,20 @@ export const Label = styled.Text`
   color: ${(props) => props.theme.colors.gray100};
 `;
 
-export const Value = styled.Text`
+const TextDefault = styled.Text`
   font-size: 12px;
   font-family: ${(props) => props.theme.fonts.normal};
   color: ${(props) => props.theme.colors.gray300};
+`;
+
+export const Value = styled(TextDefault)`
   margin-bottom: 4px;
+`;
+
+export const SinopseText = styled(TextDefault)`
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: justify;
 `;
 
 export const TitleMovie = styled.Text`
