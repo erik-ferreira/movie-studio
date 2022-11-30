@@ -1,6 +1,10 @@
+import { useState, useEffect } from "react";
+import { Image, View, Alert } from "react-native";
+import * as FileSystem from "expo-file-system";
 import { useTheme } from "styled-components/native";
+import * as MediaLibrary from "expo-media-library";
 import { useNavigation } from "@react-navigation/native";
-import { Star, HeartStraight } from "phosphor-react-native";
+import { Star, HeartStraight, DownloadSimple } from "phosphor-react-native";
 
 import { MovieDTO, ImageProps } from "../../dtos/MovieDTO";
 
@@ -26,9 +30,6 @@ import {
   SinopseText,
   ContentImagesGallery,
 } from "./styles";
-
-import { useState } from "react";
-import { Image, Text } from "react-native";
 
 interface CardMovieDetailsProps {
   movie: MovieDTO;
@@ -58,6 +59,69 @@ export function CardMovieDetails({
   const [sectionSelected, setSectionSelected] = useState<"sinopse" | "gallery">(
     "sinopse"
   );
+
+  const [canAskAgainPermission, setCanAskAgainPermission] = useState(true);
+
+  async function getDefaultPermissionMediaLibrary() {
+    const permission = await MediaLibrary.getPermissionsAsync();
+
+    setCanAskAgainPermission(permission.canAskAgain);
+  }
+
+  async function getPermissionUserToAccessMediaLibrary() {
+    const permission = await MediaLibrary.requestPermissionsAsync();
+
+    setCanAskAgainPermission(permission.canAskAgain);
+
+    return permission.status === "granted";
+  }
+
+  async function downloadImage(path: string, uri: string) {
+    const filename = path.substring(1);
+
+    try {
+      if (canAskAgainPermission) {
+        const userGavePermission =
+          await getPermissionUserToAccessMediaLibrary();
+
+        if (userGavePermission) {
+          const fileUri: string = `${FileSystem.documentDirectory}${filename}`;
+
+          const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
+
+          const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+
+          const albumDownload = await MediaLibrary.getAlbumAsync("Download");
+
+          if (albumDownload == null) {
+            await MediaLibrary.createAlbumAsync("Download", asset, false);
+          } else {
+            await MediaLibrary.addAssetsToAlbumAsync(
+              [asset],
+              albumDownload,
+              false
+            );
+          }
+
+          Alert.alert("", "Arquivo salvo com sucesso!");
+        } else {
+          Alert.alert("", "Precisamos da sua permissão para salvar o arquivo.");
+        }
+      } else {
+        // if not can ask again permission
+        Alert.alert(
+          "",
+          "Você precisa ir até as configurações do aplicativo para nos dar permissão para salvar o arquivo."
+        );
+      }
+    } catch (err) {
+      Alert.alert("", "Ocorreu um problema ao baixar o arquivo");
+    }
+  }
+
+  useEffect(() => {
+    getDefaultPermissionMediaLibrary();
+  }, []);
 
   return (
     <ContainerCardMovieDetails>
@@ -127,12 +191,25 @@ export function CardMovieDetails({
             </SinopseText>
           ) : (
             imagesMovie.map((image) => (
-              <Image
-                key={image.file_path}
-                source={{ uri: getUrlMovie(image.file_path) }}
-                resizeMode="contain"
-                style={{ width: "100%", height: 240 }}
-              />
+              <View style={{ position: "relative" }}>
+                <Image
+                  key={image.file_path}
+                  source={{ uri: getUrlMovie(image.file_path) }}
+                  resizeMode="contain"
+                  style={{
+                    width: "100%",
+                    height: 240,
+                  }}
+                />
+
+                <ButtonIcon
+                  icon={DownloadSimple}
+                  onPress={() =>
+                    downloadImage(image.file_path, getUrlMovie(image.file_path))
+                  }
+                  style={{ position: "absolute", zIndex: 1, top: 32, left: 8 }}
+                />
+              </View>
             ))
           )}
         </ContentImagesGallery>
